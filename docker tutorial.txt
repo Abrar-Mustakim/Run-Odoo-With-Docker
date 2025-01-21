@@ -1,0 +1,304 @@
+﻿install docker from official docs
+
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+
+
+
+
+
+docker run hello-world
+docker
+https://www.docker.com/blog/how-to-train-and-deploy-a-linear-regression-model-using-pytorch-part-1/
+https://saturncloud.io/blog/how-to-install-pytorch-on-the-gpu-with-docker/
+
+
+
+
+
+
+DOCKER:
+
+
+docker pull odoo:17  # Replace 16 with your desired version
+
+
+docker run -d \
+  --name odoo-custom \
+  -p 8069:8069 \
+  -v ~/odoo/custom_addons:/mnt/extra-addons \
+  -e HOST=db \
+  odoo:16
+
+
+
+
+
+
+docker run -d \
+  --name db \
+  -v odoo-db:/var/lib/postgresql/data \
+  -e POSTGRES_USER=odoo \
+  -e POSTGRES_PASSWORD=odoo \
+  -e POSTGRES_DB=postgres \
+  postgres:15
+
+
+docker run -d \
+  -v "$(pwd)/db_backup:/var/lib/postgresql/data" \
+  -e POSTGRES_USER=odoo \
+  -e POSTGRES_PASSWORD=odoo \
+  -e POSTGRES_DB=postgres \
+  --name db \
+  postgres:15
+docker run -d \
+  -v "$(pwd)/odoo.conf:/etc/odoo/odoo.conf" \
+  -v "$(pwd)/db_backup:/var/lib/postgresql/data" \
+  -e POSTGRES_USER=odoo \
+  -e POSTGRES_PASSWORD=odoo \
+  -e POSTGRES_DB=postgres \
+  --name db \
+  postgres:15
+
+
+
+
+
+
+docker run -d \
+  -v /path/to/odoo_enterprise/addons:/mnt/extra-addons \
+  -v odoo-data:/var/lib/odoo \
+  -v “$(pwd)/conf/odoo.conf:/etc/odoo/odoo.conf” \
+  -p 8069:8069 \
+  --name odoo \
+  --link db:db \
+  -e DB_HOST=db \
+  -e DB_PORT=5432 \
+  -e DB_USER=odoo \
+  -e DB_PASSWORD=odoo \
+  odoo:17
+
+
+
+
+docker run -d \
+  -v /opt/Odoo/server/odoo-ee/odoo_17.0+e.latest/odoo/addons:/mnt/enterprise-addons \
+  -v /opt/Odoo/odoo17_custom_addons_1:/mnt/extra-addons \
+  -v odoo-data:/var/lib/odoo \
+  -p 8069:8069 \
+  --name odoo \
+  --link db:db \
+  -e DB_HOST=db \
+  -e DB_PORT=5432 \
+  -e DB_USER=odoo \
+  -e DB_PASSWORD=odoo \
+  -v "$(pwd)/conf/odoo.conf:/etc/odoo/odoo.conf" \
+  odoo:17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mustakim@mustakim-ThinkPad-L14-Gen-1:~/Desktop/odoo docker$ docker run -d   -v /opt/Odoo/server/odoo-ee/odoo_17.0+e.latest:/mnt/odoo_17.0+e.latest   -v /opt/Odoo/odoo17_custom_addons_1:/mnt/extra-addons   -v odoo-data:/var/lib/odoo   -p 8069:8069   --name odoo   --link db:db   -e DB_HOST=db   -e DB_PORT=5432   -e DB_USER=odoo   -e DB_PASSWORD=odoo   -v "$(pwd)/conf/odoo.conf:/etc/odoo/odoo.conf"   odoo:17
+
+
+
+
+docker run -d \
+-v /opt/Odoo/server/odoo-ee/odoo_17.0+e.latest:/mnt/odoo_17.0+e.latest \
+-v /opt/Odoo/odoo17_custom_addons_1:/mnt/extra-addons \
+-v odoo-data:/var/lib/odoo \
+-p 8069:8069 \
+--name odoo \
+--link db:db \
+-e DB_HOST=db \
+-e DB_PORT=5432 \
+-e DB_USER=odoo \
+-e DB_PASSWORD=odoo \
+-v "$(pwd)/conf/odoo.conf:/etc/odoo/odoo.conf" \
+odoo:17
+
+
+
+
+
+
+conf file
+“[options]
+admin_passwd = @007Jamesbond@
+addons_path = /mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons,/mnt/odoo_17.0+e.latest/odoo-17.0+e.20240903/odoo/addons
+data_dir = /var/lib/odoo
+db_host = db
+db_port = 5432
+db_user = odoo
+db_password = odoo
+xmlrpc_port = 8069
+
+
+”
+
+
+
+
+
+
+
+
+
+
+docker run -d \
+-v /opt/Odoo/server/odoo-ee/odoo_17.0+e.latest/odoo-17.0+e.20240903:/mnt/enterprise \
+-v /opt/Odoo/odoo17_custom_addons_1:/mnt/extra-addons \
+-v odoo-data:/var/lib/odoo \
+-p 8069:8069 \
+--name odoo \
+--link db:db \
+-e DB_HOST=db \
+-e DB_PORT=5432 \
+-e DB_USER=odoo \
+-e DB_PASSWORD=odoo \
+-v "$(pwd)/conf/odoo.conf:/etc/odoo/odoo.conf" \
+odoo:17
+
+
+
+
+
+
+docker run -d   -v /opt/Odoo/odoo17_custom_addons_1:/mnt/extra-addons   -v odoo-data:/var/lib/odoo   -p 8069:8069   --name odoo   --link db:db   -e DB_HOST=db   -e DB_PORT=5432   -e DB_USER=odoo   -e DB_PASSWORD=odoo   odoo:17
+
+
+docker run -d   -v /opt/Odoo/odoo17_custom_addons_1:/mnt/extra-addons   -v odoo-data:/var/lib/odoo   -p 8069:8069   --name odoo   --link db:db   -e DB_HOST=db   -e DB_PORT=5432   -e DB_USER=odoo   -e DB_PASSWORD=odoo   odoo:17
+
+
+
+
+docker run -d \
+  -v /opt/Odoo/odoo17_custom_addons_1:/mnt/extra-addons \
+  -v odoo-data:/var/lib/odoo \
+  -p 8069:8069 \
+  --name odoo \
+  --link db:db \
+  -e DB_HOST=db \
+  -e DB_PORT=5432 \
+  -e DB_USER=odoo \
+  -e DB_PASSWORD=odoo \
+  -e ADDONS_PATH=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons \
+  odoo:17
+
+
+
+
+
+
+
+
+mustakim@mustakim-ThinkPad-L14-Gen-1:~/Desktop/odoo docker$ docker exec -it odoo bash
+odoo@1c4297e66864:/$ pip install PyJWT
+exit
+mustakim@mustakim-ThinkPad-L14-Gen-1:~/Desktop/odoo docker$ docker restart odoo
+odoo
+mustakim@mustakim-ThinkPad-L14-Gen-1:~/Desktop/odoo docker$
+
+
+docker stop odoo
+docker rm odoo
+
+
+
+
+docker exec -it odoo bash
+odoo@415d4c35c8c5:/$ psql -h db -U odoo -d postgres
+\l
+\c 1st_class_ent
+\q
+
+
+
+
+
+
+odoo@415d4c35c8c5:/$ cat /entrypoint.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+odoo@415d4c35c8c5:/$ echo "[options]
+addons_path = /mnt/extra-addons
+data_dir = /var/lib/odoo
+db_host = db
+db_port = 5432
+db_user = odoo
+db_password = odoo
+db_name = 1st_class_ent
+db_template = template1
+dbfilter = .*
+log_level = info
+log_file = /var/log/odoo/odoo.log
+xmlrpc_port = 8069
+longpolling_port = 8072" > /etc/odoo/odoo.conf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+docker-compose up -t 
+docker-compose build
+
+
+
+
+If need to delete database in an urgency
+“SELECT pid, usename, application_name, client_addr, backend_start, state
+FROM pg_stat_activity
+WHERE datname = '1st_class_ent';
+
+
+”
+
+“
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+WHERE datname = '1st_class_ent' AND pid <> pg_backend_pid();
+
+
+
+”
+
+“DROP DATABASE "1st_class_ent";
+
+
+”
