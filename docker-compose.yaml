@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:15
+    container_name: db
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_DB: postgres
+    volumes:
+      - ./db_backup:/var/lib/postgresql/data
+
+
+  odoo:
+    build: .
+    image: mustakim/odoo-enterprise:17
+    container_name: odoo
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=odoo
+      - DB_PASSWORD=odoo
+    volumes:
+      - /opt/Odoo/server/odoo-ee/odoo_17.0+e.latest:/mnt/odoo_17.0+e.latest
+      - /opt/Odoo/odoo17_custom_addons_1:/mnt/extra-addons
+      - odoo-data:/var/lib/odoo
+      - ./conf/odoo.conf:/etc/odoo/odoo.conf
+    ports:
+      - "8069:8069"
+ 
+
+volumes:
+  odoo-data:
+
+
